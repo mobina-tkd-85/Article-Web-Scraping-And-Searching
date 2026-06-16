@@ -2,6 +2,7 @@ import os
 import requests
 from bs4 import BeautifulSoup
 from datetime import datetime
+from dotenv import load_dotenv
 
 current_datetime = datetime.now()
 folder_name = current_datetime.strftime('%H_%M_%d_%m_%Y')  # Format the current date and time for directory name
@@ -19,12 +20,14 @@ if not os.path.exists(subdirectory_path):
     os.makedirs(subdirectory_path, exist_ok=True)
 
 # Define the URL to fetch data
-url = "https://content.guardianapis.com/technology/artificialintelligenceai?&api-key=01dd6b39-66d5-4ed8-8335-9dd17fe41a3f&type=article&page=1"
+load_dotenv()
+api = os.getenv('API')
+url = "https://content.guardianapis.com/technology/artificialintelligenceai?&api-key="+ api + "&type=article&page=1"
 
 response = requests.get(url)  # Fetch data from the URL
 x = response.json()  # Convert the response to JSON format
 
-web_urls = [item['webUrl'] for item in x['response']['results']]
+web_urls = [item['webUrl'] for item in x['response']['results']][5:7]
 
 def save_content_to_file(url, folder, filename):
     try:
