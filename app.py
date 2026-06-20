@@ -42,8 +42,8 @@ def get_answer(question):
     relevent_text= get_relevnet_text(question)
 
     prompt = PromptTemplate(
-    template=f"you are answering to a computer engineer student, generate a response from these informations  at the begging of the answer write this is your answer: {relevent_text}",
-    input_variables=['relevent_text']
+    template=f"you are answering to a computer engineer student, the question is {question} then generate one paragraph response using these informations : {relevent_text}",
+    input_variables=['question', 'relevent_text']
     )
 
     llm = HuggingFaceEndpoint(
@@ -57,7 +57,7 @@ def get_answer(question):
 
     parser = StrOutputParser()
     chain = prompt | model | parser
-    answer = chain.invoke({'relevent_text' : relevent_text})
+    answer = chain.invoke({'relevent_text' : relevent_text, 'question' : question})
     return answer
 
 
