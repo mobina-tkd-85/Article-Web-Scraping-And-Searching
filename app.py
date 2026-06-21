@@ -27,10 +27,11 @@ index = pickle.load(open("faiss_index.pkl", "rb"))
 chunks = pickle.load(open("chunks.pkl", "rb"))
 
 
+
 def get_relevnet_text(question):
     q_vec = model.encode([question])
 
-    D, I = index.search(q_vec, k=10)
+    D, I = index.search(q_vec, k=3)
 
     relevent_text = "\n".join([chunks[i] for i in I[0]])
 
@@ -42,7 +43,7 @@ def get_answer(question):
     relevent_text= get_relevnet_text(question)
 
     prompt = PromptTemplate(
-    template=f"you are answering to a computer engineer student, the question is {question} then generate one paragraph response using these informations : {relevent_text}",
+    template=f"you are answering to a sport fan, the question is {question} then generate 3 or 4 sentences response using these informations : {relevent_text}",
     input_variables=['question', 'relevent_text']
     )
 

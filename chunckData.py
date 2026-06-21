@@ -21,11 +21,13 @@ for root, dirs, files in os.walk(DATA_FOLDER):
             with open(path, "r", encoding="utf-8") as f:
                 data = json.load(f)
 
+                section = data['section']
                 title = data["title"]
                 paragraphs = data["paragraphs"]
+                date = data["date"]
 
                 # 2. combine paragraphs into chunks
-                full_text = title + "\n" + "\n".join(paragraphs)
+                full_text =section + "\n" + date + "\n"+ title + "\n" + "\n".join(paragraphs)
 
                 # simple chunking (you can improve later)
                 words = full_text.split()
